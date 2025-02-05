@@ -17,7 +17,8 @@ This project creates and manages a To-Do task system using Chromia as the backen
 - Users authenticate via **MetaMask**.  
 - Tasks can be created with a **title, description, due date, and color** for visual cues.  
 - Every task starts with the status **incomplete** but can be marked as complete once finished.  
-- Tasks can be **edited** after creation.  
+- Tasks can be **edited** after creation.
+- Users can track their tasks using the **task stats**card.
 - Sorting options include:
   - **By completion status** (incomplete/complete)  
   - **Alphabetically** (based on the first letter of the title)  
