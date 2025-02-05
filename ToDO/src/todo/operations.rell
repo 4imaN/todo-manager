@@ -1,0 +1,33 @@
+operation create_user (name) {
+    val account = register_account();
+    val user = create user (name, account.id, account);
+}
+
+operation create_task (title:text, description:text, due_date:text, color:text) {
+    val account = auth.authenticate();
+    val user = user @ {account};
+    create task (title = title, description = description, user = user, due_date = due_date, color = color);
+}
+
+operation update_task (title:text, description:text, completed:boolean, due_date:text, color:text, id:byte_array) {
+    val account = auth.authenticate();
+    val user = user @ {account};
+    val task = require(task @? {.id == id , .user == user} , "Task not found"); 
+    update task (title = title, description = description, completed = completed, due_date = due_date, color = color);
+}
+
+
+operation delete_task (id:byte_array) {
+    val account = auth.authenticate();
+    val user = user @ {account};
+    val task = require(task @? {.id == id , .user == user} , "Task not found"); 
+    delete task;
+}
+
+operation status_task (id:byte_array) {
+    val account = auth.authenticate();
+    val user = user @ {account};
+    val response = require(task @? {.id == id , .user == user} , "Task not found"); 
+    val invert = not(response.completed);
+    update response (completed = invert);
+}

@@ -1,0 +1,72 @@
+struct user_dto {
+    id: byte_array;
+    name: text;
+}
+
+
+struct task_dto {
+    user: struct <user>; 
+     title: text;
+     description: text;
+     completed: boolean;
+     id: byte_array;
+     due_date: text;
+    timestamp: timestamp;
+    color: text;
+
+}
+
+
+query get_task(
+    task_id: byte_array,
+    account_id: byte_array,
+) {
+    val user = require(user @? { .id == account_id }, "User not found");
+    return task @ { .id == task_id, .user == user} (
+        .id,
+        .title,
+        .description,
+        .completed,
+        .due_date,
+        .color
+    );
+}
+
+
+query get_all_tasks(
+    account_id: byte_array,
+) {
+    val user = user @? { .id == account_id };
+    print("yeeeeeeeeeeeeeeeeeeee");
+    return task @* { .user == user} (
+        task_dto (
+             user = .user.to_struct(),
+            .title,
+            .description,
+            .completed,
+            .id,
+            .due_date,
+            .timestamp,
+            .color,
+        )
+      
+    );
+}
+
+query get_all_users() {
+    return user @ {};
+}
+
+query get_user(
+    account_id: byte_array,
+) {
+    return user @? { .id == account_id } (
+      user_dto (
+        .id,
+        .name,
+        )
+    );
+}
+query get_ls(){
+    return task @ {};
+} 
