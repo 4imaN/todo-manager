@@ -6,14 +6,26 @@
 **Telegram:** @izanami_A   
 
 ### Project Description
-This project creates and manages a To-Do task system using Chromia as the backend. The frontend is built with Next.js 15, and authentication is handled using MetaMask.
+This project creates and manages a To-Do task system using Chromia as the backend. The frontend is built with Next.js 15, and  MetaMask as authenticationa  method and creating an account.
 
-### How It Works
-- The frontend is built with Next.js 15.
-- The backend is powered by Chromia.
-- Users authenticate via MetaMask.
-- Tasks can be added, deleted, and updated.
-- Custom sounds for actions can be modified in the `public/sounds` folder.
+# Task Management DApp
+
+## How It Works
+
+- When logging in with **MetaMask**, if the account does not exist in the database, a new account is created with a **randomly assigned name** on the backend. If the account already exists, tasks associated with that account are fetched.  
+- The backend is powered by **Chromia**.  
+- Users authenticate via **MetaMask**.  
+- Tasks can be created with a **title, description, due date, and color** for visual cues.  
+- Every task starts with the status **incomplete** but can be marked as complete once finished.  
+- Tasks can be **edited** after creation.  
+- Sorting options include:
+  - **By completion status** (incomplete/complete)  
+  - **Alphabetically** (based on the first letter of the title)  
+  - **By due date**  
+- Users can switch between **light mode** and **dark mode**.  
+- Users can customize the application **theme**.  
+- Custom **sounds for actions** can be modified in the `public/sounds` folder.  
+
 
 ### Setup Instructions
 
@@ -58,12 +70,12 @@ Rell requires PostgreSQL 16.3. To set up PostgreSQL:
 #### Frontend Setup (Next.js 15)
 1. Clone the repository:
    ```sh
-   git clone <repo-url>
-   cd <repo-folder>
+   git clone https://github.com/4imaN/todo-manager
+   cd frontend
    ```
 2. Install dependencies:
    ```sh
-   npm install --legacy-peer-deps
+   npm install --legacy-peer-deps or npm install --force due to next.js version
    ```
 3. Start the development server:
    ```sh
@@ -91,7 +103,9 @@ If Chromia is installed and set up correctly, the backend will run. If you encou
 - Use MetaMask to connect to the application.
 - Add, delete, and update tasks as needed.
 - Modify custom sounds in the `public/sounds` folder.
+- Switch between light and dark mode as needed.
+- can be used for mobile and desktop.
 
 ### Additional Information
-For any  issues or questions , please contact me at **aymen123mengesha@gmail.com** will be happy to help you.
-
+- For any  issues or questions , please contact me at **aymen123mengesha@gmail.com** will be happy to help you.
+- or you can view the project on loom using this link https://www.loom.com/share/1e662d214c8046d08ba474b439b05057?sid=134b74e9-b505-4616-8a8f-6bdd5546038e
