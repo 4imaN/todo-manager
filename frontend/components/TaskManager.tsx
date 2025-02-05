@@ -5,6 +5,7 @@ import { useSessionContext } from "@/components/ContextProvider"
 import TaskList from "./TaskList"
 import TaskForm from "./TaskForm"
 import type { Task } from "@/type/task"
+import { TaskStats } from "./task-stats"
 
 
 export default function TaskManager() {
@@ -76,7 +77,7 @@ export default function TaskManager() {
         if (updatedTask.completed) {
           playSound("/sounds/complete-task.mp3")
         }
-        fetchTasks() // Refresh the task list
+        fetchTasks() 
         setEditingTask(null) // Exit edit mode after updating
       } catch (error) {
         console.error("Error updating task:", error)
@@ -131,6 +132,7 @@ export default function TaskManager() {
     if (filter === "all") return true
     if (filter === "completed") return task.completed
     if (filter === "incomplete") return !task.completed
+    if (filter === "overdue") return task.due_date < new Date().toISOString()
     return true
   })
 
@@ -146,6 +148,8 @@ export default function TaskManager() {
   return (
     <div className="max-w-4xl mx-auto p-4 dark:bg-gray-900 dark:text-white">
       <h1 className="text-3xl font-bold mb-6">Task Manager</h1>
+      {/* <TaskStats  compoenents} */}
+      <TaskStats tasks={tasks} />
       <TaskForm
         onAddTask={addTask}
         onUpdateTask={updateTask}
@@ -184,7 +188,7 @@ export default function TaskManager() {
         ) : sortedTasks.length > 0 ? (
           <TaskList
             tasks={sortedTasks}
-            onEditTask={editTask}  // Allow editing
+            onEditTask={editTask}  
             onUpdateTask={updateTask}
             onDeleteTask={deleteTask}
             onToggleStatus={toggleTaskStatus}

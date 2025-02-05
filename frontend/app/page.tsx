@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import TaskManager from "@/components/TaskManager";
 import { useSessionContext } from "@/components/ContextProvider";
 import { FaUserCircle, FaSun, FaMoon } from "react-icons/fa";
@@ -12,6 +12,7 @@ export default function Home() {
   const [user, setUser] = useState<{ id: string; name: string } | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Load dark mode from localStorage
   useEffect(() => {
@@ -51,6 +52,25 @@ export default function Home() {
     fetchUser();
   }, [session]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   // Connect/Logout MetaMask function
   const handleAuth = async () => {
     if (session) {
@@ -69,7 +89,7 @@ export default function Home() {
   };
 
   return (
-    <main className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"} transition-colors duration-300`}>
+    <main className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"} transition-colors duration-300 h-max-screen`}>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">ToDo Manager</h1>
@@ -78,7 +98,7 @@ export default function Home() {
             {/* Dark Mode Toggle with Animation */}
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className=" rounded-full flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 transition-all"
+              className="rounded-full flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 transition-all"
             >
               <AnimatePresence mode="wait">
                 {darkMode ? (
@@ -109,7 +129,7 @@ export default function Home() {
             {!session && (
               <button
                 onClick={handleAuth}
-                className="p-2  rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+                className="p-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
               >
                 {isConnecting ? "Connecting..." : "Connect MetaMask"}
               </button>
@@ -117,10 +137,10 @@ export default function Home() {
 
             {/* Profile Icon and Dropdown */}
             {session && user && (
-              <div className="relative">
+              <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2  rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                  className="flex items-center space-x-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
                 >
                   <FaUserCircle className="text-3xl text-gray-600 dark:text-gray-300" />
                 </button>
