@@ -24,7 +24,6 @@ This project creates and manages a To-Do task system using Chromia as the backen
   - **Alphabetically** (based on the first letter of the title)  
   - **By due date**  
 - Users can switch between **light mode** and **dark mode**.  
-- Users can customize the application **theme**.  
 - Custom **sounds for actions** can be modified in the `public/sounds` folder.  
 
 
